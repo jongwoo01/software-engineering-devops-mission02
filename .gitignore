@@ -17,6 +17,9 @@ out/
 *.log
 test_results.txt
 build_results.txt
+sources.txt
+lib/
+test-reports/
 
 # Secrets
 .env

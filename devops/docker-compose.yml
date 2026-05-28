@@ -1,4 +1,22 @@
 services:
+  controller:
+    image: mint8846/ngrinder-controller:3.5.9-p1
+    ports:
+      - "80:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
+    volumes:
+      - controller:/opt/ngrinder-controller
+    restart: unless-stopped
+
+  agent:
+    image: mint8846/ngrinder-agent:3.5.9-p1
+    volumes:
+      - agent:/opt/ngrinder-agent
+    depends_on:
+      - controller
+    restart: unless-stopped
+
   jenkins:
     image: jenkins/jenkins:lts-jdk21
     container_name: devops-mission-jenkins
@@ -22,5 +40,6 @@ services:
       - jenkins:8080
 
 volumes:
+  controller:
+  agent:
   jenkins_home:
-
