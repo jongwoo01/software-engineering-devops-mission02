@@ -19,6 +19,7 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
+          <credentialsId>github-token</credentialsId>
           <url>https://github.com/jongwoo01/software-engineering-devops-mission02.git</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
@@ -37,4 +38,3 @@
   <triggers/>
   <disabled>false</disabled>
 </flow-definition>
-
