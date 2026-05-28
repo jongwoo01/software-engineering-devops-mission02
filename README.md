@@ -30,17 +30,21 @@ The Jenkins Pipeline should:
 
 This repository contains a small Java console project for the DevOps pipeline.
 
-- `src/Book.java`: book data model
-- `src/BookManager.java`: book add/list/search logic
-- `src/Main.java`: sample program entry point
-- `test/BookManagerTest.java`: simple test runner
+- `Test2/src/Book.java`: book data model
+- `Test2/src/BookManager.java`: book add/list/search logic
+- `Test2/src/Main.java`: sample program entry point
+- `Test2/src/BookManagerTest.java`: JUnit test
 - `Jenkinsfile`: Jenkins Pipeline definition
 
 ## Local Build
 
 ```bash
 mkdir -p classes
-javac -encoding UTF-8 -d classes src/*.java test/*.java
-java -cp classes BookManagerTest
-java -cp classes Main
+mkdir -p lib test-reports
+curl -L -o lib/junit.jar https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.7.1/junit-platform-console-standalone-1.7.1.jar
+cd Test2
+find src -name "*.java" > sources.txt
+javac -encoding UTF-8 -d ../classes -cp ../lib/junit.jar @sources.txt
+cd ..
+java -jar lib/junit.jar --class-path classes --scan-class-path --reports-dir test-reports
 ```

@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = '/opt/java/openjdk'
-        PATH = "/opt/java/openjdk/bin:${env.PATH}"
         JUNIT_JAR_URL = 'https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.7.1/junit-platform-console-standalone-1.7.1.jar'
         JUNIT_JAR_PATH = 'lib/junit.jar'
         CLASS_DIR = 'classes'
@@ -20,8 +18,9 @@ pipeline {
         stage('Prepare') {
             steps {
                 sh '''
-                    rm -rf ${CLASS_DIR} ${REPORT_DIR} build_results.txt
-                    mkdir -p ${CLASS_DIR} ${REPORT_DIR} lib
+                    mkdir -p ${CLASS_DIR}
+                    mkdir -p ${REPORT_DIR}
+                    mkdir -p lib
                     echo "[+] Downloading JUnit JAR..."
                     curl -L -o ${JUNIT_JAR_PATH} ${JUNIT_JAR_URL}
                 '''
@@ -31,10 +30,10 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                    echo "[+] Compiling source and test files..."
-                    find src test -name "*.java" > sources.txt
-                    javac -encoding UTF-8 -d ${CLASS_DIR} -cp ${JUNIT_JAR_PATH} @sources.txt
-                    echo "Build succeeded at $(date)" > build_results.txt
+                    echo "[+] Compiling source files..."
+                    cd Test2
+                    find src -name "*.java" > sources.txt
+                    javac -encoding UTF-8 -d ../${CLASS_DIR} -cp ../${JUNIT_JAR_PATH} @sources.txt
                 '''
             }
         }
@@ -55,24 +54,21 @@ pipeline {
                 '''
             }
         }
-
-        stage('Run') {
-            steps {
-                sh 'java -cp ${CLASS_DIR} Main >> build_results.txt'
-            }
-        }
     }
 
     post {
         always {
+            echo "[*] Archiving test results..."
             junit "${REPORT_DIR}/**/*.xml"
-            archiveArtifacts artifacts: "${REPORT_DIR}/**/*, build_results.txt", allowEmptyArchive: true
+            archiveArtifacts artifacts: "${REPORT_DIR}/**/*", allowEmptyArchive: true
         }
-        success {
-            echo 'Build and test succeeded'
-        }
+
         failure {
-            echo 'Build or test failed'
+            echo "Build or test failed!"
+        }
+
+        success {
+            echo "Build and test succeeded!"
         }
     }
 }

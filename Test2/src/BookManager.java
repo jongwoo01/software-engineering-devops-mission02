@@ -25,4 +25,3 @@ public class BookManager {
         return null;
     }
 }
-
