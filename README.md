@@ -26,3 +26,21 @@ The Jenkins Pipeline should:
 - run tests if available
 - save build or test output as a `.txt` artifact
 
+## Project
+
+This repository contains a small Java console project for the DevOps pipeline.
+
+- `src/Book.java`: book data model
+- `src/BookManager.java`: book add/list/search logic
+- `src/Main.java`: sample program entry point
+- `test/BookManagerTest.java`: simple test runner
+- `Jenkinsfile`: Jenkins Pipeline definition
+
+## Local Build
+
+```bash
+mkdir -p classes
+javac -encoding UTF-8 -d classes src/*.java test/*.java
+java -cp classes BookManagerTest
+java -cp classes Main
+```
