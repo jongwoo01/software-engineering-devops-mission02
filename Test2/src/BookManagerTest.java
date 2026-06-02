@@ -10,7 +10,7 @@ public class BookManagerTest {
         manager.addBook(new Book("Clean Code", "Robert C. Martin"));
 
         assertEquals(1, manager.getBooks().size());
-        Book found = manager.findByTitle("clean code");
+        Book found = manager.findByTitle("Clean Code");
         assertNotNull(found);
         assertEquals("Robert C. Martin", found.getAuthor());
     }
