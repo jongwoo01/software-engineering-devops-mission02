@@ -69,6 +69,20 @@ pipeline {
 
         success {
             echo "Build and test succeeded!"
+            
+            emailext(
+            to: 'parkdo514@gmail.com',
+            subject: "[Jenkins] Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """
+            <h2>Jenkins Build Success</h2>
+            <p><b>Job:</b> ${env.JOB_NAME}</p>
+            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+            <p><b>Status:</b> SUCCESS</p>
+            <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+            <p>빌드와 테스트가 정상적으로 완료되었습니다.</p>
+            """,
+            mimeType: 'text/html'
+        	)
         }
     }
 }
