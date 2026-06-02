@@ -71,7 +71,7 @@ pipeline {
             echo "Build and test succeeded!"
             
             emailext(
-            to: 'parkdo514@gmail.com, hijw0328@gmail.com, minyeong2675@gmail.com, rainwifekth@naver.com',
+            to: 'parkdo514@gmail.com, hijw0328@gmail.com, minyeong2675@gmail.com, rainwifekth@naver.com, holic702@gmail.com',
             subject: "[Jenkins] Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
             body: """
             <h2>Jenkins Build Success</h2>
