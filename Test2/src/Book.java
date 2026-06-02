@@ -3,6 +3,10 @@ public class Book {
     private final String author;
     private final int publicationYear;
 
+    public Book(String title, String author) {
+        this(title, author, 0);
+    }
+
     public Book(String title, String author, int publicationYear) {
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("title must not be blank");
@@ -10,8 +14,8 @@ public class Book {
         if (author == null || author.isBlank()) {
             throw new IllegalArgumentException("author must not be blank");
         }
-        if (publicationYear <= 0) {
-            throw new IllegalArgumentException("publication year must be positive");
+        if (publicationYear < 0) {
+            throw new IllegalArgumentException("publication year must not be negative");
         }
 
         this.title = title;
@@ -33,6 +37,9 @@ public class Book {
 
     @Override
     public String toString() {
+        if (publicationYear == 0) {
+            return title + " by " + author;
+        }
         return title + " by " + author + " (" + publicationYear + ")";
     }
 }
